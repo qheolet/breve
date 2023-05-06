@@ -31,7 +31,7 @@ const app = new Application();
 app.use(async (context, next) => {
   try {
     await context.send({
-      root: `${Deno.cwd()}/examples/static`,
+      root: `${Deno.cwd()}/static`,
       index: "index.html",
     });
   } catch {
