@@ -5,6 +5,8 @@ const {getQuery} = helpers;
 
 const router = new Router();
 
+
+
 router.get("/:url", (ctx: Context) => {
   const {url} = getQuery(ctx,{mergeParams:true})
 
@@ -24,6 +26,18 @@ router.get("/:url", (ctx: Context) => {
 });
 
 const app = new Application();
+
+
+app.use(async (context, next) => {
+  try {
+    await context.send({
+      root: `${Deno.cwd()}/examples/static`,
+      index: "index.html",
+    });
+  } catch {
+    await next();
+  }
+});
 
 app.use(router.routes());
 app.use(router.allowedMethods());
