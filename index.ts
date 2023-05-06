@@ -1,13 +1,11 @@
 import { Application, Router, Context, helpers, Status } from "https://deno.land/x/oak/mod.ts";
-import { isValidUrl } from "./utility.ts";
+import { isValidUrl } from "./server/utility.ts";
 
 const {getQuery} = helpers;
 
 const router = new Router();
 
-
-
-router.get("/:url", (ctx: Context) => {
+router.get("/api/short/:url", (ctx: Context) => {
   const {url} = getQuery(ctx,{mergeParams:true})
 
   if(!isValidUrl(url)) {
