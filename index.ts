@@ -1,5 +1,6 @@
 import { Application, Router, Context, helpers, Status } from "https://deno.land/x/oak/mod.ts";
 import { isValidUrl } from "./server/utility.ts";
+import { memory } from "./server/kv.ts";
 
 const {getQuery} = helpers;
 
@@ -17,11 +18,26 @@ router.get("/api/short/:url", (ctx: Context) => {
     return;
   }
 
-  ctx.response.body = {url};
+  const {id} = memory.add(url);
+  ctx.response.body = {"id":id, "url":url, "link":`http://localhost:1776/to/${id}` };
   ctx.response.type = "json"
   ctx.response.status = Status.OK;
   return;
 });
+
+router.get("/to/:id", (ctx: Context) => {
+  const {id} = getQuery(ctx,{mergeParams:true})
+
+  ctx.response.redirect(memory.get(id))
+
+  // ctx.response.body = {"id":id, url: memory.get(id)};
+  // ctx.response.type = "json"
+  // ctx.response.status = Status.OK;
+
+
+  return;
+});
+
 
 const app = new Application();
 
