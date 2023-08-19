@@ -30,9 +30,9 @@ router.get("/to/:id", (ctx: Context) => {
 
   ctx.response.redirect(memory.get(id))
 
-  // ctx.response.body = {"id":id, url: memory.get(id)};
-  // ctx.response.type = "json"
-  // ctx.response.status = Status.OK;
+  ctx.response.body = {"id":id, url: memory.get(id)};
+  ctx.response.type = "json"
+  ctx.response.status = Status.OK;
 
 
   return;
